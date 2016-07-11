@@ -68,6 +68,7 @@ class Viking
 end
 
 # Run script
+=begin
 oleg = Viking.new("Oleg")
 sven = Viking.new("Sven")
 oleg.attack(sven)
@@ -79,4 +80,5 @@ sven.pick_up_weapon(Axe.new)
 puts "\nInspecting vikings:\n"
 puts oleg.inspect
 puts sven.inspect
+=end
 puts "\n...thanks for playing.\n\n"
