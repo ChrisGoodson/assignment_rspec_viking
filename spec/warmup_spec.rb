@@ -22,15 +22,21 @@ describe Warmup do
 
   describe "#calls_some_methods" do
     # let(:my_string) {double("string", :upcase! => "UNBELIEVABLE")}
-    it "returns a new string after receiving a bang" do
+    it "invokes the destructive upcase method" do
       my_string = "unbelievable"
-      expect(warmup.calls_some_methods(my_string)).to receive(:upcase!).and_return("UNBELIEVABLE")
-      # calls_some_methods(my_string)
-
+      expect(my_string).to receive(:upcase!).and_return("UNBELIEVABLE")
+      warmup.calls_some_methods(my_string)
     end
+
     it "invokes the destructive reverse method" do
-      expect(warmup).to receive(:reverse!).and_return("toag")
-      calls_some_methods("goat")
+      my_string = "goat"
+      expect(my_string).to receive(:reverse!).and_return("toag")
+      warmup.calls_some_methods(my_string)
+    end
+
+    it "returns a completely different object than the one passed in" do
+      my_string = "goat"
+      expect(warmup.calls_some_methods(my_string).object_id).not_to eq(my_string.object_id)
     end
   end
 
