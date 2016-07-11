@@ -3,6 +3,8 @@
   describe Viking do
     let(:stick){double("stick weapon", :is_a? => true)}
     let(:viking){Viking.new("Steve", 40, 12, stick)}
+    let(:sword){double("weapon_a", :is_a? => true)}
+    let(:axe){double("weapon_b", :is_a? => true)}
 
     describe "#initialize" do 
 
@@ -24,8 +26,6 @@
     end
 
     describe "#pick_up_weapon" do 
-      let(:sword){double("weapon_a", :is_a? => true)}
-      let(:axe){double("weapon_b", :is_a? => true)}
 
       it "sets a picked-up weapon as the Vikings weapon" do
         viking.pick_up_weapon(sword)
@@ -64,11 +64,32 @@
       end
     end
 
+    describe "#attack" do
+      let(:jerry){Viking.new("Jerry", 50, 10, sword)}
+      let(:george){Viking.new("George Costanza", 50, 10, axe)}
 
-  # The receive_attack method calls the take_damage method (hint: recall expect(...).to receive(...))
-  # attacking another Viking causes the recipient's health to drop
-  # attacking another Viking calls that Viking's take_damage method
-  # attacking with no weapon runs damage_with_fists
+      it "attacking another Viking causes the recipient's health to drop" do 
+        # allow(george).to receive(:receive_attack)
+        jerry.attack(george)
+        expect(george.health).to eq(47.5)
+      end
+
+      it "attacking another Viking calls that Viking's take_damage method" do
+        allow(jerry).to receive(:take_damage)
+        expect(jerry).to receive(:take_damage)
+        george.attack(jerry)
+      end
+
+      it "attacking with no weapon runs damage_with_fists" do 
+        allow(jerry).to receive(:damage_with_fists)
+        expect(jerry).to receive(:damage_with_fists)
+        jerry.attack(george)
+      end
+
+
+    end
+  
+
   # attacking with no weapon deals Fists multiplier times strength damage
   # attacking with a weapon runs damage_with_weapon
   # attacking with a weapon deals damage equal to the Viking's strength times that Weapon's multiplier
