@@ -5,6 +5,7 @@
     let(:viking){Viking.new("Steve", 40, 12, stick)}
     let(:sword){double("weapon_a", :is_a? => true)}
     let(:axe){double("weapon_b", :is_a? => true)}
+    let(:no_weapon_viking){Viking.new("Josh",40, 13)}
 
     describe "#initialize" do 
 
@@ -69,28 +70,33 @@
       let(:george){Viking.new("George Costanza", 50, 10, axe)}
 
       it "attacking another Viking causes the recipient's health to drop" do 
-        # allow(george).to receive(:receive_attack)
         jerry.attack(george)
         expect(george.health).to eq(47.5)
       end
 
       it "attacking another Viking calls that Viking's take_damage method" do
-        allow(jerry).to receive(:take_damage)
         expect(jerry).to receive(:take_damage)
         george.attack(jerry)
       end
 
       it "attacking with no weapon runs damage_with_fists" do 
-        allow(jerry).to receive(:damage_with_fists)
-        expect(jerry).to receive(:damage_with_fists)
-        jerry.attack(george)
+
+        expect(no_weapon_viking).to receive(:damage_with_fists).and_return(2)
+        no_weapon_viking.attack(jerry)
       end
+
+      it "attacking with no weapon deals Fists multiplier times strength damage" do
+        
+        
+      end
+
+
 
 
     end
   
 
-  # attacking with no weapon deals Fists multiplier times strength damage
+
   # attacking with a weapon runs damage_with_weapon
   # attacking with a weapon deals damage equal to the Viking's strength times that Weapon's multiplier
   # attacking using a Bow without enough arrows uses Fists instead
