@@ -50,7 +50,21 @@
         expect(viking.weapon).to be_nil
       end
     end
-  # The receive_attack method reduces that Viking's health by the specified amount
+
+    describe "#receive_attack" do
+      it "reduces that Viking's health by the specified amount" do
+        viking.receive_attack(10)
+        expect(viking.health).to eq(30)
+      end
+
+      it "calls the take_damage method" do
+        allow(viking).to receive(:take_damage)
+        expect(viking).to receive(:take_damage)
+        viking.receive_attack(10)
+      end
+    end
+
+
   # The receive_attack method calls the take_damage method (hint: recall expect(...).to receive(...))
   # attacking another Viking causes the recipient's health to drop
   # attacking another Viking calls that Viking's take_damage method
