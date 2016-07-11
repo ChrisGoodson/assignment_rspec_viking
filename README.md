@@ -1,3 +1,5 @@
+a utensil by Matt Hinea
+
 assignment_rspec_ruby_sprint
 ============================
 
