@@ -3,9 +3,9 @@
   describe Viking do
     let(:stick){double("stick weapon", :is_a? => true)}
     let(:viking){Viking.new("Steve", 40, 12, stick)}
-    let(:sword){double("weapon_a", :is_a? => true)}
+    let(:sword){double("weapon_a", :is_a? => true, :use => 2)}
     let(:axe){double("weapon_b", :is_a? => true)}
-    let(:no_weapon_viking){Viking.new("Josh",40, 13)}
+    let(:no_weapon_viking){Viking.new("Josh", 40, 20)}
 
     describe "#initialize" do 
 
@@ -68,10 +68,11 @@
     describe "#attack" do
       let(:jerry){Viking.new("Jerry", 50, 10, sword)}
       let(:george){Viking.new("George Costanza", 50, 10, axe)}
+      let(:arrowless_archer){Viking.new("Elaine", 50, 10, Bow.new(0))}
 
       it "attacking another Viking causes the recipient's health to drop" do 
         jerry.attack(george)
-        expect(george.health).to eq(47.5)
+        expect(george.health).to eq(30)
       end
 
       it "attacking another Viking calls that Viking's take_damage method" do
@@ -86,20 +87,32 @@
       end
 
       it "attacking with no weapon deals Fists multiplier times strength damage" do
-        
-        
+        no_weapon_viking.attack(jerry)
+        expect(jerry.health).to eq(45)        
       end
 
+      it "attacking with a weapon runs damage_with_weapon" do 
+        expect(jerry).to receive(:damage_with_weapon).and_return(6)
+        jerry.attack(george)
+      end
 
-
+      it "attacking with a weapon deals damage equal to the Viking's strength times that Weapon's multiplier" do 
+        jerry.attack(george) # jerry's strength: 10. jerry's weapon's multiplier: 2.
+        expect(george.health).to eq(30)
+      end
+    
+      it "attacking using a Bow without enough arrows uses Fists instead" do
+        arrowless_archer.attack(george)
+        expect().to 
+      end
 
     end
   
 
 
-  # attacking with a weapon runs damage_with_weapon
-  # attacking with a weapon deals damage equal to the Viking's strength times that Weapon's multiplier
-  # attacking using a Bow without enough arrows uses Fists instead
+  
+  
+  # 
   # Killing a Viking raises an error
 
 
