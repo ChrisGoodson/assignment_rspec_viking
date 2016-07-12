@@ -6,6 +6,7 @@
     let(:sword){double("weapon_a", :is_a? => true, :use => 2)}
     let(:axe){double("weapon_b", :is_a? => true)}
     let(:no_weapon_viking){Viking.new("Josh", 40, 20)}
+    let(:buff){Viking.new("Buff", 50, 99, sword)}
 
     describe "#initialize" do 
 
@@ -102,10 +103,15 @@
       end
     
       it "attacking using a Bow without enough arrows uses Fists instead" do
+        expect(arrowless_archer).to receive(:damage_with_fists).and_return(2.25) 
         arrowless_archer.attack(george)
-        expect().to 
       end
 
+      describe "#check_death" do
+        it "killing a viking raises an error" do
+          buff.attack(george)
+          expect{buff.attack(george)}.to raise_error
+        end
     end
   
 
